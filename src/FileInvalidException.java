@@ -6,7 +6,11 @@ public class FileInvalidException extends Exception{
 	}
 	
 	public FileInvalidException(String file) {
-		super("Could not open input file xxxxx for reading. Please check if file exists! Program will terminate after closing any opened files.");
+		super("Could not open input file "+file+" for reading. Please check if file exists! Program will terminate after closing any opened files.");
+	}
+	
+	public FileInvalidException(String file, boolean bool) {
+		super("Error in the structure of file "+file+" for reading. Please check the strecture again.");
 	}
 	
 	public FileInvalidException(String file,String field) {
