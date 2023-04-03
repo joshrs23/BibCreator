@@ -1,39 +1,57 @@
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 public class BibCreator {
 	private String folder = "files";
+	private int errors=0;
+	private int NumberFiles=0;
 	
 	public void main() throws FileInvalidException{
 		File directory = new File(this.folder);
 		File[] files = directory.listFiles();
 		Scanner readFile = null;
+		ArrayList<Data> allData = new ArrayList<Data>();
+		
+		System.out.println("Wecolme to BibCreator");
+		
+		this.DeletedJson();
 		
 		for (File file : files) {
 			if (file.isFile() && file.getName().endsWith(".bib")) {
 				
 				try {
 					readFile = new Scanner (new FileInputStream(file.getAbsolutePath()));
-					this.processFilesForValidation(readFile,file.getName());
-					
+					allData = this.processFilesForValidation(readFile,file.getName());
+					NumberFiles = NumberFiles + 1;
+					//mandar a guardar json 3 tipos
+					this.writeFiles(allData,file.getName());
+				}
+				catch (FileInvalidException e1) {
+					// TODO Auto-generated catch block
+					this.errors = this.errors + 1;
+					System.out.println(e1.getMessage());
 				}
 				catch (FileNotFoundException e) {
 					// TODO Auto-generated catch block
-					System.out.println(""+e.getMessage());
+					System.out.println(e.getMessage());
 				}
 				
 			} else {
 				throw new FileInvalidException(file.getName());
 			}
 		}
+		System.out.println("A total of "+errors+" files were invalid, and could not be processed. All other "+NumberFiles+" \"Valid\" files have been created.");
 	}
 	
-	public void processFilesForValidation(Scanner readFile,String nameFile) {
+	public ArrayList<Data> processFilesForValidation(Scanner readFile,String nameFile) throws FileInvalidException {
 		
+		ArrayList<Data> allData = new ArrayList<Data>();
 		boolean Finalvalidation;
-		int id;
+		int id=0;
 		String subLine,line,head,data;
 		String author,journal,title,year,volume,number,pages,keywords,doi,issn,month;
 		String[] predata;
@@ -43,11 +61,11 @@ public class BibCreator {
 			Finalvalidation=false;
 			author="";journal="";title="";year="";volume="";number="";pages="";keywords="";doi="";issn="";month="";
 			
-			if (line.equals("@ARTICLE{")) {			
+			if (line.replaceAll("\\s+", "").equals("@ARTICLE{")) {			
 					
 					while (readFile.hasNext() && Finalvalidation==false) {
 						subLine = readFile.nextLine();
-						if (!subLine.equals("")) {
+						if (!subLine.replaceAll("\\s+", "").equals("")) {
 							
 							if (subLine.replaceAll("\\s+", "").equals("}")) {
 								Finalvalidation = true;
@@ -105,17 +123,100 @@ public class BibCreator {
 									}
 									
 								} else {
-									//error es nulo
+									//error es nulo poner un throw
+									throw new FileInvalidException(nameFile,head);
 								}
 							}
 						}						
 					}
 					//aca acabo uno
-				
-			} else {
-
-			}
-			System.out.println(line+"***");
+					Data Singledata = new Data(id);
+					Singledata.setAuthor(author);
+					Singledata.setJournal(journal);
+					Singledata.setTitle(title);
+					Singledata.setYear(Integer.parseInt(year));
+					Singledata.setVolume(volume);
+					Singledata.setNumber(Integer.parseInt(number));
+					Singledata.setPages(pages);
+					Singledata.setKeywords(keywords);
+					Singledata.setDoi(doi);
+					Singledata.setIssn(issn);
+					Singledata.setMonth(month);
+					allData.add(Singledata);
+					//System.out.println(Singledata);
+			} 
 		}
+		return allData;
 	} 
+	
+	public void DeletedJson() {
+		File directory = new File(this.folder);
+		File[] files = directory.listFiles();
+		Scanner readFile = null;
+		
+		for (File file : files) {
+			if (file.isFile() && file.getName().endsWith(".json")) {
+				
+				file.delete();
+				
+			} 
+		}
+	}
+	
+	public void writeFiles(ArrayList<Data> data, String fileName) {
+		PrintWriter writeFile = null;
+		fileName = fileName.split("Latex")[1].split(".bib")[0];
+		//System.out.println("*****"+fileName+"*****");
+		//IEEE
+		//System.out.println("###IEEE###");
+
+		File file = new File("IEEE"+(fileName)+".json");
+		for (int i = 0; i < data.size(); i++) {
+			try {
+				if (i==0) {
+					writeFile = new PrintWriter(file);
+				}
+				
+				writeFile.println(data.get(i).get_IEEE_Format());
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				System.out.println(e.getMessage());
+			}
+			//System.out.println(data.get(i).get_IEEE_Format());
+		}
+		//ACM
+		//System.out.println("###ACM###");
+		writeFile.close();
+		file = new File("ACM"+(fileName)+".json");
+		for (int i = 0; i < data.size(); i++) {
+			try {
+				if (i==0) {
+					writeFile = new PrintWriter(file);
+				}
+				writeFile.println(data.get(i).get_ACM_Format(i+1));
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				System.out.println(e.getMessage());
+			}
+			//System.out.println(data.get(i).get_ACM_Format(i+1));
+		}
+		writeFile.close();
+		//NJ
+		//System.out.println("###NJ###");
+
+		file = new File("NJ"+(fileName)+".json");
+		for (int i = 0; i < data.size(); i++) {
+			try {
+				if (i==0) {
+					writeFile = new PrintWriter(file);
+				}
+				writeFile.println(data.get(i).get_NJ_Format());
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				System.out.println(e.getMessage());
+			}
+			//System.out.println(data.get(i).get_NJ_Format());
+		}
+		writeFile.close();
+	}
 }
