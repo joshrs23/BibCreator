@@ -1,6 +1,9 @@
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
@@ -166,10 +169,7 @@ public class BibCreator {
 	public void writeFiles(ArrayList<Data> data, String fileName) {
 		PrintWriter writeFile = null;
 		fileName = fileName.split("Latex")[1].split(".bib")[0];
-		//System.out.println("*****"+fileName+"*****");
 		//IEEE
-		//System.out.println("###IEEE###");
-
 		File file = new File("IEEE"+(fileName)+".json");
 		for (int i = 0; i < data.size(); i++) {
 			try {
@@ -182,10 +182,8 @@ public class BibCreator {
 				// TODO Auto-generated catch block
 				System.out.println(e.getMessage());
 			}
-			//System.out.println(data.get(i).get_IEEE_Format());
 		}
 		//ACM
-		//System.out.println("###ACM###");
 		writeFile.close();
 		file = new File("ACM"+(fileName)+".json");
 		for (int i = 0; i < data.size(); i++) {
@@ -198,11 +196,9 @@ public class BibCreator {
 				// TODO Auto-generated catch block
 				System.out.println(e.getMessage());
 			}
-			//System.out.println(data.get(i).get_ACM_Format(i+1));
 		}
 		writeFile.close();
 		//NJ
-		//System.out.println("###NJ###");
 
 		file = new File("NJ"+(fileName)+".json");
 		for (int i = 0; i < data.size(); i++) {
@@ -215,8 +211,52 @@ public class BibCreator {
 				// TODO Auto-generated catch block
 				System.out.println(e.getMessage());
 			}
-			//System.out.println(data.get(i).get_NJ_Format());
 		}
 		writeFile.close();
+	}
+	
+	public void readFiles()  {
+		boolean found = false;
+		int time = 0;
+		Scanner scanner = new Scanner(System.in);
+		String fileName;
+		BufferedReader read;
+		
+		System.out.println("\n");
+		
+		while (time<2 && found==false) {
+			System.out.println("Please enter the name of one of the files that you need to review: ");
+			fileName = scanner.nextLine();
+			File directory = new File("./"+fileName);
+			try {
+				found = getDataFile(directory);
+			} catch (FileInvalidException e) {
+				System.out.println(e.getMessage());
+			}
+			time = time +1;
+		}
+			
+	}
+	
+	public boolean getDataFile(File directory) throws FileInvalidException{
+		BufferedReader read;
+		if (directory.isFile()) {
+			try {
+				read = new BufferedReader(new FileReader(directory));
+				String line;
+				while ((line = read.readLine()) != null) {
+					System.out.println(line);
+				}
+				read.close();
+			} 
+			catch (FileNotFoundException e) {
+				System.out.println(e.getMessage());
+			}catch (IOException e1) {
+				System.out.println(e1.getMessage());
+			}
+			return true;
+		} else {				
+			throw new FileInvalidException(directory.getName(),true);
+		}
 	}
 }

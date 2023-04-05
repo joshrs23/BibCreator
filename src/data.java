@@ -120,7 +120,7 @@ public class Data {
 		String text="",author;
 		author = this.author.replaceAll("and", ",");
 		text = text + author+". \""+this.title+"\", "+this.journal+", vol. "+this.volume+", no. "+this.number+", p. "+this.pages+", "+this.month+" "+this.year;
-		return text;
+		return text+"\n";
 	}
 	
 	//[4]	T. K. Roman et al. 2018.  IP-Based Mobility Optimization. Mobile Networks and Applications. AA, 4 (2018), 64-82. DOI:https://doi.org/233.5490/TPS.2018.8700003.
@@ -128,7 +128,7 @@ public class Data {
 		String text="",author;
 		author = this.author.split(" and")[0];
 		text = text + author+" et al. "+this.year+".  "+this.title+". "+this.journal+". "+this.volume+", "+this.number+" ("+this.year+"), "+this.pages+". DOI:https://doi.org/"+this.doi;
-		return text;
+		return text+"\n";
 	}
 	
 	//T. K. Roman & C. Henry Jr. & L. Fevens.  IP-Based Mobility Optimization. Mobile Networks and Applications. AA, 64-82(2018).
@@ -136,7 +136,7 @@ public class Data {
 		String text="",author;
 		author = this.author.replaceAll("and", "&");
 		text = text + author+".  "+this.title+". "+this.journal+". "+this.volume+", "+this.pages+"("+this.year+")";
-		return text;
+		return text+"\n";
 	}
 
 	@Override

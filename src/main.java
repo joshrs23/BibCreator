@@ -1,3 +1,4 @@
+import java.util.Scanner;
 
 public class main {
 
@@ -6,9 +7,9 @@ public class main {
 		BibCreator bib = new BibCreator();
 		try {
 			bib.main();
+			bib.readFiles();
 		} catch (FileInvalidException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println(e.getMessage());
 		}
 	}
 

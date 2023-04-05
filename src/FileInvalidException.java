@@ -10,7 +10,7 @@ public class FileInvalidException extends Exception{
 	}
 	
 	public FileInvalidException(String file, boolean bool) {
-		super("Error in the structure of file "+file+" for reading. Please check the strecture again.");
+		super("Could not open input file "+file+". File doesnt not exist; possibly it coud not be created!\nHowever, you will be allowed another chance to enter another file name.\n");
 	}
 	
 	public FileInvalidException(String file,String field) {
