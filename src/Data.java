@@ -119,7 +119,7 @@ public class Data {
 	public String get_IEEE_Format() {
 		String text="",author;
 		author = this.author.replaceAll("and", ",");
-		text = text + author+". \""+this.title+"\", "+this.journal+", vol. "+this.volume+", no. "+this.number+", p. "+this.pages+", "+this.month+" "+this.year;
+		text = text + author+". \""+this.title+"\", "+this.journal+", vol. "+this.volume+", no. "+this.number+", p. "+this.pages+", "+this.month+" "+this.year+".";
 		return text+"\n";
 	}
 	
@@ -127,7 +127,7 @@ public class Data {
 	public String get_ACM_Format(int number) {
 		String text="",author;
 		author = this.author.split(" and")[0];
-		text = text + author+" et al. "+this.year+".  "+this.title+". "+this.journal+". "+this.volume+", "+this.number+" ("+this.year+"), "+this.pages+". DOI:https://doi.org/"+this.doi;
+		text = text + "["+number+"]	"+author+" et al. "+this.year+".  "+this.title+". "+this.journal+". "+this.volume+", "+this.number+" ("+this.year+"), "+this.pages+". DOI:https://doi.org/"+this.doi+".";
 		return text+"\n";
 	}
 	
@@ -135,7 +135,7 @@ public class Data {
 	public String get_NJ_Format() {
 		String text="",author;
 		author = this.author.replaceAll("and", "&");
-		text = text + author+".  "+this.title+". "+this.journal+". "+this.volume+", "+this.pages+"("+this.year+")";
+		text = text + author+".  "+this.title+". "+this.journal+". "+this.volume+", "+this.pages+"("+this.year+")"+".";
 		return text+"\n";
 	}
 
