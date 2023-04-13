@@ -1,4 +1,12 @@
+//-----------------------------------------------------
 
+//Assignment (Final Project)
+
+//© José Salazar - Laura Silva
+
+//Written by: 2131962 - 2130223
+
+//-----------------------------------------------------
 public class FileInvalidException extends Exception{
 	
 	public FileInvalidException() {

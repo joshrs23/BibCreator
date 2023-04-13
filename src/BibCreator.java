@@ -8,6 +8,17 @@ import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+//-----------------------------------------------------
+
+//Assignment (Final Project)
+
+//© José Salazar - Laura Silva
+
+//Written by: 2131962 - 2130223
+
+//-----------------------------------------------------
+
+
 public class BibCreator {
 	private String folder = "./";
 	private int errors=0;

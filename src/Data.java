@@ -1,4 +1,15 @@
 
+
+//-----------------------------------------------------
+
+//Assignment (Final Project)
+
+//© José Salazar - Laura Silva
+
+//Written by: 2131962 - 2130223
+
+//-----------------------------------------------------
+
 public class Data {
 	private int id;
 	private String author;

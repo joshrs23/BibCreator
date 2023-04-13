@@ -1,5 +1,13 @@
 import java.util.Scanner;
+//-----------------------------------------------------
 
+//Assignment (Final Project)
+
+//© José Salazar - Laura Silva
+
+//Written by: 2131962 - 2130223
+
+//-----------------------------------------------------
 public class main {
 
 	public static void main(String[] args) {
