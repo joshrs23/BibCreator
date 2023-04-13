@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class BibCreator {
-	private String folder = "files";
+	private String folder = "./";
 	private int errors=0;
 	private int NumberFiles=0;
 	
@@ -19,7 +19,7 @@ public class BibCreator {
 		Scanner readFile = null;
 		ArrayList<Data> allData = new ArrayList<Data>();
 		
-		System.out.println("Wecolme to BibCreator");
+		System.out.println("Welcome to BibCreator");
 		
 		this.DeletedJson();
 		
@@ -44,7 +44,8 @@ public class BibCreator {
 				}
 				
 			} else {
-				throw new FileInvalidException(file.getName());
+				
+				//throw new FileInvalidException(file.getName());
 			}
 		}
 		System.out.println("A total of "+errors+" files were invalid, and could not be processed. All other "+NumberFiles+" \"Valid\" files have been created.");
